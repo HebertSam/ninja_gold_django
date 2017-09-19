@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {%load static%}
+</head>
+<body>
+    <h2>Your gold {{request.session.my_gold}}</h2>
+
+    <form action="/farm" method="post">
+        {%csrf_token%}
+        <h4>Farm</h4>
+        <span>(earns 10 - 20 gold)</span>
+        <button type="submit">Find Gold!</button>
+    </form>
+    <form action="/cave" method="post">
+        {%csrf_token%}
+        <h4>Cave</h4>
+        <span>(earns 5 - 10 gold)</span>
+        <button type="submit">Find Gold!</button>
+    </form>
+    <form action="/house" method="post">
+        {%csrf_token%}
+         <h4>House</h4>
+        <span>(earns 2 - 5 gold)</span>
+         <button type="submit">Find Gold!</button>
+    </form>
+    <form action="/casino" method="post">
+        {%csrf_token%}
+        <h4>Casino</h4>
+       <span>(earns/takes 0 - 50 gold)</span>
+        <button type="submit">Find Gold!</button>
+   </form>
+
+   <h3>Activites</h3>
+   <div style="overflow: scroll; height: 250px; width: 500px;">
+       {% for data in request.session.log %}
+            {% if data.gold < 0 %}
+                <p style="color:red">Entered a {{data.location}} and lost {{data.gold}} golds ... Ouch. {{data.time}}</p>
+            {% else %}
+                <p style="color:green">Earned {{data.gold}} from the {{data.location}} {{data.time}}</p>
+
+            {%endif%}
+        {%endfor%}
+   </div>
+   <a href="/reset">Start Over</a>
+
+</body>
+</html>
